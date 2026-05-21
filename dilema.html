@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EXPEDIENTE 01 — Infobae & el caso Báez Sosa</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,600;9..144,900&family=JetBrains+Mono:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0a0a;
+    --bg-elev: #131313;
+    --bg-elev-2: #1c1c1c;
+    --ink: #f4f1ea;
+    --ink-dim: #8a8580;
+    --ink-faint: #4a4641;
+    --line: #2a2724;
+    --accent: #c8392b;       /* rojo dossier */
+    --accent-soft: #e8a89e;
+    --green: #6b8e4e;        /* óptimo */
+    --amber: #d4a04a;        /* intermedio */
+    --crimson: #b03a2e;      /* extremo */
+    --blue: #5b7ba8;         /* defensa */
+    --yellow: #c9a227;       /* postura intermedia 3 lecturas */
+    --serif: 'Fraunces', Georgia, serif;
+    --mono: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--ink);
+    font-family: var(--serif);
+    font-weight: 400;
+    line-height: 1.5;
+    overflow-x: hidden;
+    background-image:
+      radial-gradient(circle at 20% 10%, rgba(200,57,43,0.04) 0%, transparent 40%),
+      radial-gradient(circle at 80% 80%, rgba(91,123,168,0.03) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    opacity: 0.025;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' /%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ===== NAV ===== */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    padding: 16px 32px;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    border-bottom: 1px solid var(--line);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  nav .brand { color: var(--accent); font-weight: 700; }
+  nav .links { display: flex; gap: 28px; }
+  nav .links a {
+    color: var(--ink-dim);
+    text-decoration: none;
+    transition: color 0.2s;
+    position: relative;
+  }
+  nav .links a:hover { color: var(--ink); }
+  nav .links a::before {
+    content: attr(data-num);
+    color: var(--ink-faint);
+    margin-right: 6px;
+  }
+
+  /* ===== SECTIONS ===== */
+  section {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 120px 48px 80px;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .section-label::before {
+    content: '';
+    width: 32px; height: 1px;
+    background: var(--accent);
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-top: 80px;
+  }
+  .hero-meta {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-dim);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .hero-meta span { display: flex; align-items: center; gap: 8px; }
+  .hero-meta span::before {
+    content: '◆';
+    color: var(--accent);
+    font-size: 8px;
+  }
+  .hero h1 {
+    font-family: var(--serif);
+    font-weight: 300;
+    font-size: clamp(48px, 8vw, 112px);
+    line-height: 0.95;
+    letter-spacing: -0.03em;
+    margin-bottom: 24px;
+  }
+  .hero h1 .em {
+    font-style: italic;
+    font-weight: 900;
+    color: var(--accent);
+  }
+  .hero .subtitle {
+    font-family: var(--serif);
+    font-size: clamp(18px, 2vw, 24px);
+    color: var(--ink-dim);
+    max-width: 720px;
+    line-height: 1.4;
+    margin-bottom: 64px;
+    font-weight: 300;
+  }
+
+  .questions-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+    margin-top: 48px;
+  }
+  .q-card {
+    border-top: 2px solid var(--accent);
+    padding-top: 24px;
+    position: relative;
+  }
+  .q-card .q-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .q-card .q-subtype {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    margin-bottom: 16px;
+    letter-spacing: 0.1em;
+  }
+  .q-card .q-text {
+    font-family: var(--serif);
+    font-size: clamp(18px, 1.6vw, 22px);
+    font-weight: 400;
+    line-height: 1.4;
+    color: var(--ink);
+  }
+  .q-card .q-text em { color: var(--accent-soft); font-style: italic; }
+
+  .scroll-hint {
+    position: absolute;
+    bottom: 32px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 0.4; transform: translate(-50%, 0); }
+    50% { opacity: 1; transform: translate(-50%, 4px); }
+  }
+
+  /* ===== TIMELINE ===== */
+  .timeline-wrapper {
+    margin-top: 48px;
+    position: relative;
+    padding: 40px 0;
+  }
+  .timeline-line {
+    position: absolute;
+    left: 0; right: 0;
+    top: 50%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--line) 10%, var(--line) 90%, transparent);
+  }
+  .timeline {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 8px;
+    position: relative;
+  }
+  .tl-item {
+    position: relative;
+    cursor: pointer;
+    padding: 16px 8px;
+    text-align: center;
+    transition: all 0.3s ease;
+  }
+  .tl-item .tl-dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid var(--ink-dim);
+    margin: 16px auto;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 2;
+  }
+  .tl-item.severe .tl-dot { border-color: var(--accent); background: var(--accent); }
+  .tl-item:hover .tl-dot { transform: scale(1.4); border-color: var(--accent); }
+  .tl-item .tl-date {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+  .tl-item .tl-title {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .tl-detail {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    border-left: 3px solid var(--accent);
+    padding: 32px;
+    margin-top: 32px;
+    display: none;
+    animation: slideDown 0.3s ease;
+  }
+  .tl-detail.active { display: block; }
+  .tl-detail h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .tl-detail p {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+  @keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ===== TRES LECTURAS ===== */
+  .lecturas-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 48px;
+    perspective: 1200px;
+  }
+  .lectura {
+    position: relative;
+    min-height: 420px;
+    cursor: pointer;
+    transform-style: preserve-3d;
+    transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .lectura.flipped { transform: rotateY(180deg); }
+  .lectura-face {
+    position: absolute;
+    inset: 0;
+    padding: 32px;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border: 1px solid var(--line);
+    background: var(--bg-elev);
+    display: flex;
+    flex-direction: column;
+  }
+  .lectura-back {
+    transform: rotateY(180deg);
+    background: var(--bg-elev-2);
+    overflow-y: auto;
+  }
+  .lectura.blue .lectura-face { border-top: 4px solid var(--blue); }
+  .lectura.red .lectura-face { border-top: 4px solid var(--crimson); }
+  .lectura.yellow .lectura-face { border-top: 4px solid var(--yellow); }
+
+  .lectura .l-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--ink-dim);
+    margin-bottom: 16px;
+  }
+  .lectura.blue .l-num { color: var(--blue); }
+  .lectura.red .l-num { color: var(--crimson); }
+  .lectura.yellow .l-num { color: var(--yellow); }
+
+  .lectura .l-title {
+    font-family: var(--serif);
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+  .lectura .l-pull {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--ink-dim);
+    line-height: 1.4;
+    margin-bottom: auto;
+  }
+  .lectura .l-hint {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .lectura .l-hint::before { content: '↻'; font-size: 14px; }
+
+  .lectura-back h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    margin-bottom: 8px;
+  }
+  .lectura.blue .lectura-back h4 { color: var(--blue); }
+  .lectura.red .lectura-back h4 { color: var(--crimson); }
+  .lectura.yellow .lectura-back h4 { color: var(--yellow); }
+  .lectura-back p {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+  .lectura-back ul {
+    list-style: none;
+    margin-top: 16px;
+  }
+  .lectura-back ul li {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--ink-dim);
+    padding: 8px 0 8px 16px;
+    border-left: 1px solid var(--line);
+    margin-bottom: 4px;
+  }
+
+  /* ===== TABLA ACCIONES ===== */
+  .acciones-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-top: 48px;
+  }
+  .accion {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+  }
+  .accion:hover { border-color: var(--ink-faint); }
+  .accion-header {
+    display: grid;
+    grid-template-columns: 60px 100px 1fr 140px 32px;
+    align-items: center;
+    padding: 20px 24px;
+    gap: 16px;
+  }
+  .accion-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+  .accion-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 10px;
+    text-align: center;
+    border: 1px solid;
+    display: inline-block;
+  }
+  .accion-badge.intermedio { color: var(--amber); border-color: var(--amber); }
+  .accion-badge.extremo { color: var(--crimson); border-color: var(--crimson); background: rgba(176,58,46,0.08); }
+  .accion-title {
+    font-family: var(--serif);
+    font-size: 17px;
+    line-height: 1.3;
+    color: var(--ink);
+  }
+  .accion-actor {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+    text-align: right;
+  }
+  .accion-toggle {
+    font-family: var(--mono);
+    color: var(--ink-faint);
+    font-size: 20px;
+    transition: transform 0.3s ease;
+    text-align: right;
+  }
+  .accion.open .accion-toggle { transform: rotate(45deg); color: var(--accent); }
+  .accion-body {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    border-top: 1px solid transparent;
+  }
+  .accion.open .accion-body {
+    max-height: 1000px;
+    border-top: 1px solid var(--line);
+  }
+  .accion-body-inner {
+    padding: 28px 24px 28px 184px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .principios-block h5 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .principios-block.pro h5 { color: var(--green); }
+  .principios-block.contra h5 { color: var(--crimson); }
+  .principios-block ul { list-style: none; }
+  .principios-block ul li {
+    font-family: var(--serif);
+    font-size: 14px;
+    line-height: 1.5;
+    padding: 6px 0 6px 14px;
+    color: var(--ink-dim);
+    position: relative;
+  }
+  .principios-block ul li::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 12px;
+    width: 6px; height: 1px;
+  }
+  .principios-block.pro ul li::before { background: var(--green); }
+  .principios-block.contra ul li::before { background: var(--crimson); }
+  .fundamentacion {
+    grid-column: 1 / -1;
+    padding-top: 24px;
+    border-top: 1px solid var(--line);
+    margin-top: 8px;
+  }
+  .fundamentacion h5 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .fundamentacion p {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    font-style: italic;
+  }
+
+  .observacion-clave {
+    margin-top: 32px;
+    padding: 28px 32px;
+    background: rgba(200,57,43,0.06);
+    border-left: 3px solid var(--accent);
+  }
+  .observacion-clave .ok-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 12px;
+    font-weight: 700;
+  }
+  .observacion-clave p {
+    font-family: var(--serif);
+    font-size: 18px;
+    line-height: 1.5;
+    color: var(--ink);
+  }
+  .observacion-clave p strong { color: var(--accent-soft); font-weight: 600; }
+
+  /* ===== KANT VS MILL ===== */
+  .vs-header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+    margin-top: 48px;
+    margin-bottom: 32px;
+  }
+  .vs-side {
+    text-align: center;
+  }
+  .vs-side .philosopher {
+    font-family: var(--serif);
+    font-size: 80px;
+    font-weight: 300;
+    line-height: 0.9;
+    margin-bottom: 4px;
+  }
+  .vs-side .approach {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ink-dim);
+  }
+  .vs-side.kant .philosopher { color: var(--accent); font-style: italic; }
+  .vs-side.mill .philosopher { color: var(--blue); font-style: italic; }
+  .vs-divider {
+    font-family: var(--serif);
+    font-size: 24px;
+    font-style: italic;
+    color: var(--ink-faint);
+  }
+
+  .vs-toggle {
+    display: flex;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 32px;
+    padding: 4px;
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    width: fit-content;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .vs-toggle button {
+    background: transparent;
+    border: none;
+    padding: 10px 20px;
+    color: var(--ink-dim);
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .vs-toggle button.active {
+    background: var(--accent);
+    color: var(--bg);
+    font-weight: 700;
+  }
+
+  .vs-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px;
+  }
+  .vs-content.single { grid-template-columns: 1fr; max-width: 800px; margin: 0 auto; }
+
+  .vs-card {
+    background: var(--bg-elev);
+    border: 1px solid var(--line);
+    padding: 32px;
+    display: none;
+  }
+  .vs-card.active { display: block; animation: fadeIn 0.4s ease; }
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .vs-card.kant { border-top: 3px solid var(--accent); }
+  .vs-card.mill { border-top: 3px solid var(--blue); }
+  .vs-card.both { border-top: 3px solid var(--ink-dim); }
+
+  .vs-card .vs-author {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+  .vs-card.kant .vs-author { color: var(--accent); }
+  .vs-card.mill .vs-author { color: var(--blue); }
+  .vs-card .vs-question {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-dim);
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--line);
+    line-height: 1.4;
+  }
+  .vs-card h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink);
+    margin: 20px 0 10px;
+  }
+  .vs-card p {
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .vs-card .quote {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: 16px;
+    color: var(--accent-soft);
+    padding: 16px 20px;
+    border-left: 2px solid var(--accent);
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+  .vs-card.mill .quote { color: #a8c0e0; border-left-color: var(--blue); }
+  .vs-card .verdict {
+    margin-top: 24px;
+    padding: 16px;
+    background: var(--bg);
+    border: 1px solid var(--line);
+    font-family: var(--serif);
+    font-size: 15px;
+    line-height: 1.5;
+  }
+  .vs-card .verdict strong {
+    display: block;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .vs-card.mill .verdict strong { color: var(--blue); }
+
+  /* ===== CIERRE ===== */
+  .cierre {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 120px 48px;
+  }
+  .cierre .big-q {
+    font-family: var(--serif);
+    font-style: italic;
+    font-weight: 300;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1.1;
+    color: var(--ink);
+    max-width: 1000px;
+    margin: 32px auto;
+    letter-spacing: -0.02em;
+  }
+  .cierre .big-q em {
+    color: var(--accent);
+    font-weight: 600;
+  }
+  .cierre .signature {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    margin-top: 48px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 900px) {
+    nav { padding: 12px 20px; }
+    nav .links { gap: 16px; font-size: 10px; }
+    section { padding: 100px 24px 60px; }
+    .questions-grid { grid-template-columns: 1fr; }
+    .timeline { grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    .lecturas-grid { grid-template-columns: 1fr; }
+    .lectura { min-height: 360px; }
+    .accion-header { grid-template-columns: 40px 80px 1fr 32px; }
+    .accion-actor { display: none; }
+    .accion-body-inner { padding: 24px; grid-template-columns: 1fr; }
+    .vs-content { grid-template-columns: 1fr; }
+    .vs-side .philosopher { font-size: 48px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">◆ EXPEDIENTE 01</div>
+  <div class="links">
+    <a href="#caso" data-num="01">Caso</a>
+    <a href="#preguntas" data-num="02">Preguntas</a>
+    <a href="#lecturas" data-num="03">Lecturas</a>
+    <a href="#acciones" data-num="04">Acciones</a>
+    <a href="#etica" data-num="05">Kant·Mill</a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero" id="caso">
+  <div class="hero-meta">
+    <span>Ética & Comunicación 2026</span>
+    <span>Caso Argentino · 2020—2026</span>
+    <span>Comunicadores titulados</span>
+  </div>
+  <h1>
+    Cobertura<br>
+    o <span class="em">condena</span><br>
+    mediática.
+  </h1>
+  <p class="subtitle">
+    Infobae y el juicio por el asesinato de Fernando Báez Sosa: un dilema sobre la dignidad, la presunción de inocencia y la lógica del clic en la era digital.
+  </p>
+
+  <div class="questions-grid" id="preguntas">
+    <div class="q-card">
+      <div class="q-label">Pregunta ética · 01</div>
+      <div class="q-subtype">racional · teórica · amplia</div>
+      <div class="q-text">
+        ¿Hasta qué punto el deber periodístico de informar sobre hechos de violencia de interés público puede <em>coexistir</em> con la dignidad de los afectados, la presunción de inocencia y la imparcialidad judicial, en un ecosistema digital donde la inmediatez y la viralización amplifican toda decisión editorial?
+      </div>
+    </div>
+    <div class="q-card">
+      <div class="q-label">Pregunta moral · 02</div>
+      <div class="q-subtype">concreta · particular · situada</div>
+      <div class="q-text">
+        ¿Estuvo bien que Infobae transmitiera las 22 jornadas del juicio "minuto a minuto", difundiera los videos del ataque y publicara notas sobre la vida personal de <em>Julieta Rossi</em>, aun cuando ella había manifestado que no estaba preparada emocionalmente para enfrentar el caso públicamente?
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">↓ navegá el expediente</div>
+</section>
+
+<!-- ========== TIMELINE ========== -->
+<section>
+  <div class="section-label">Cronología del caso</div>
+  <h2 style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1; margin-bottom: 12px; letter-spacing: -0.02em;">
+    Seis años en <em style="color: var(--accent); font-weight: 600;">primera plana</em>.
+  </h2>
+  <p style="font-family: var(--serif); font-size: 18px; color: var(--ink-dim); max-width: 720px;">
+    Hacé clic en cada hito para abrir el contexto.
+  </p>
+
+  <div class="timeline-wrapper">
+    <div class="timeline-line"></div>
+    <div class="timeline">
+      <div class="tl-item severe" data-id="t1">
+        <div class="tl-date">ENE 2020</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">El crimen en Villa Gesell</div>
+      </div>
+      <div class="tl-item severe" data-id="t2">
+        <div class="tl-date">ENE 2020</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">Video de los acusados viralizado</div>
+      </div>
+      <div class="tl-item" data-id="t3">
+        <div class="tl-date">ENE—FEB 2023</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">22 jornadas "minuto a minuto"</div>
+      </div>
+      <div class="tl-item" data-id="t4">
+        <div class="tl-date">FEB 2023</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">Veredicto: 5 perpetuas + 3</div>
+      </div>
+      <div class="tl-item severe" data-id="t5">
+        <div class="tl-date">NOV 2025</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">Documental Netflix "50 segundos"</div>
+      </div>
+      <div class="tl-item severe" data-id="t6">
+        <div class="tl-date">MAR 2026</div>
+        <div class="tl-dot"></div>
+        <div class="tl-title">El caso sigue en agenda</div>
+      </div>
+    </div>
+
+    <div class="tl-detail" id="d-t1">
+      <h4>El hecho</h4>
+      <p>En la madrugada del 18 de enero de 2020, Fernando Báez Sosa —joven argentino hijo de migrantes paraguayos— es atacado en la puerta del boliche Le Brique de Villa Gesell por un grupo de jóvenes rugbiers de Zárate. Muere por el ataque coordinado de varios atacantes contra una víctima inconsciente. La secuencia completa queda registrada en el domo de seguridad municipal.</p>
+    </div>
+    <div class="tl-detail" id="d-t2">
+      <h4>Material crudo en circulación</h4>
+      <p>En los días posteriores al crimen, Infobae replica y mantiene accesible el video grabado por los propios acusados con sus celulares: material brutal que muestra el momento del ataque. La viralización masiva ocurre antes de que ese material se procese judicialmente como prueba. Infobae lo embebe en sus notas digitales.</p>
+    </div>
+    <div class="tl-detail" id="d-t3">
+      <h4>El juicio en formato live blog</h4>
+      <p>Entre el 2 de enero y el 6 de febrero de 2023, Infobae cubre las 22 jornadas del juicio en Dolores en formato "minuto a minuto", manteniendo el caso como tema dominante de portada. Cronistas se desplazan a Dolores y a Zárate. El Poder Judicial autoriza la transmisión por YouTube debido al "interés social y mediático" alcanzado.</p>
+    </div>
+    <div class="tl-detail" id="d-t4">
+      <h4>La sentencia</h4>
+      <p>Cinco de los ocho rugbiers reciben prisión perpetua. Los otros tres son condenados a 15 años. La cobertura mediática es señalada como factor de presión que evitó la impunidad —pero también como fenómeno que erosionó la presunción de inocencia durante todo el proceso.</p>
+    </div>
+    <div class="tl-detail" id="d-t5">
+      <h4>Reactivación cultural</h4>
+      <p>En noviembre de 2025 se estrena en Netflix el documental "50 segundos: el caso Fernando Báez Sosa". Infobae reactiva la cobertura: nuevas notas sobre los acusados, las apelaciones en curso, las familias —y nuevamente sobre Julieta Rossi, la novia de Fernando, que en 2023 había pedido a través de su padre no ser expuesta y se encontraba en tratamiento psicológico.</p>
+    </div>
+    <div class="tl-detail" id="d-t6">
+      <h4>El caso como tema rentable</h4>
+      <p>En marzo de 2026, Infobae publica una nota sobre Lucas Pertossi (uno de los condenados) hablando desde la cárcel. En diciembre de 2025, una nota sobre el nuevo noviazgo de Julieta Rossi con Agustín Monzón. La cobertura post-sentencia continúa, alimentada por cada nuevo "ángulo" disponible. El expediente del clic permanece abierto.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TRES LECTURAS ========== -->
+<section id="lecturas">
+  <div class="section-label">Los tres lados del dilema</div>
+  <h2 style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1; margin-bottom: 12px; letter-spacing: -0.02em;">
+    Tres lecturas <em style="color: var(--accent); font-weight: 600;">defendibles</em>.
+  </h2>
+  <p style="font-family: var(--serif); font-size: 18px; color: var(--ink-dim); max-width: 720px;">
+    Si no hay más de una postura sostenible, no hay dilema. Pasá el cursor o hacé clic para girar cada tarjeta.
+  </p>
+
+  <div class="lecturas-grid">
+    <div class="lectura blue" data-id="l1">
+      <div class="lectura-face">
+        <div class="l-num">◆ POSTURA 01 · DEFENSA</div>
+        <div class="l-title">Periodismo como control social</div>
+        <div class="l-pull">
+          "Sin la presión mediática sostenida, casos como el de Fernando Báez Sosa quedarían impunes."
+        </div>
+        <div class="l-hint">girar tarjeta</div>
+      </div>
+      <div class="lectura-face lectura-back">
+        <h4>Argumentos centrales</h4>
+        <p>La víctima era un joven inmigrante. El componente racista y clasista del crimen exigía visibilidad sostenida. El propio Poder Judicial autorizó la transmisión por YouTube reconociendo "el interés social y mediático".</p>
+        <ul>
+          <li>Interés público real comprobado</li>
+          <li>Función de fiscalización del Poder Judicial</li>
+          <li>Educación cívica sobre violencia juvenil</li>
+          <li>Veredicto ejemplar como resultado: 5 perpetuas + 3 condenas</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lectura red" data-id="l2">
+      <div class="lectura-face">
+        <div class="l-num">◆ POSTURA 02 · CRÍTICA</div>
+        <div class="l-title">Juicio mediático paralelo</div>
+        <div class="l-pull">
+          "La presunción de inocencia se rompió antes del fallo, y personas vulnerables se transformaron en producto editorial recurrente."
+        </div>
+        <div class="l-hint">girar tarjeta</div>
+      </div>
+      <div class="lectura-face lectura-back">
+        <h4>Argumentos centrales</h4>
+        <p>La cobertura sostenida construyó un juicio paralelo, naturalizó el término "rugbiers asesinos" antes de la sentencia y violó la dignidad de quienes no eligieron la exposición pública.</p>
+        <ul>
+          <li>Viralización del video del ataque</li>
+          <li>Exposición de Julieta Rossi contra su voluntad</li>
+          <li>Linchamiento mediático de barrios enteros (Zárate)</li>
+          <li>Formato clickbait y sensacionalismo digital</li>
+          <li>Mantenimiento del caso en agenda por engagement</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="lectura yellow" data-id="l3">
+      <div class="lectura-face">
+        <div class="l-num">◆ POSTURA 03 · INTERMEDIA</div>
+        <div class="l-title">Sí cubrir, no espectacularizar</div>
+        <div class="l-pull">
+          "El caso ameritaba cobertura, pero faltó análisis estructural y sobró espectáculo."
+        </div>
+        <div class="l-hint">girar tarjeta</div>
+      </div>
+      <div class="lectura-face lectura-back">
+        <h4>Argumentos centrales</h4>
+        <p>El periodismo reacciona ante los hechos de mayor violencia racista sin explicar el fenómeno en profundidad. La cobertura fue legítima en su existencia pero deficitaria en su forma.</p>
+        <ul>
+          <li>Faltó análisis estructural: clasismo, racismo, cultura del rugby</li>
+          <li>Sobró exposición personal de víctimas secundarias</li>
+          <li>El formato "minuto a minuto" privilegió el dato sobre la comprensión</li>
+          <li>Posible: cubrir SIN republicar el video del ataque</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ACCIONES Y PRINCIPIOS ========== -->
+<section id="acciones">
+  <div class="section-label">Punto 3 + 4 · Acciones, principios y juicio ético</div>
+  <h2 style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1; margin-bottom: 12px; letter-spacing: -0.02em;">
+    Siete decisiones <em style="color: var(--accent); font-weight: 600;">editoriales</em>.
+  </h2>
+  <p style="font-family: var(--serif); font-size: 18px; color: var(--ink-dim); max-width: 720px;">
+    Cada acción tomada por Infobae, evaluada bajo los principios de la comunicación. Hacé clic para desplegar la fundamentación completa.
+  </p>
+
+  <div class="acciones-grid">
+
+    <div class="accion" data-id="a1">
+      <div class="accion-header">
+        <div class="accion-num">01</div>
+        <div class="accion-badge intermedio">Intermedio</div>
+        <div class="accion-title">Definir la línea editorial general: redacción sin jefes intermedios, sin sección de opinión, foco en "piezas breves e historias personales", priorización de SEO y engagement.</div>
+        <div class="accion-actor">Daniel Hadad<br>CEO / Fundador</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Libertad de medios</li>
+            <li>Libertad de expresión</li>
+            <li>Autonomía editorial (Cuenca Molina)</li>
+            <li>Derecho a la información rápida</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Completud (Cortina)</li>
+            <li>Formación de opinión crítica madura</li>
+            <li>Actitud de servicio vs. actitud de poder</li>
+            <li>Interés público vs. lógica del clic</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>Hadad construye un medio que difunde rápido y masivo, pero el modelo prioriza el formato emocional sobre el análisis estructural. Cumple parcialmente: respeta libertades pero desincentiva la reflexión profunda. Adopta una actitud de poder al tratar a los lectores como audiencia a captar, no como interlocutores válidos.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a2">
+      <div class="accion-header">
+        <div class="accion-num">02</div>
+        <div class="accion-badge intermedio">Intermedio</div>
+        <div class="accion-title">Cobertura "minuto a minuto" durante 22 jornadas, manteniendo el caso como tema dominante de portada en enero y febrero de 2023.</div>
+        <div class="accion-actor">Adriana Cavallo<br>Directora Editorial</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Interés público real</li>
+            <li>Derecho a investigar y difundir (Art. 19 DUDH)</li>
+            <li>Información asequible y rápida</li>
+            <li>Veracidad (hechos judicialmente acreditados)</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Presunción de inocencia</li>
+            <li>Imparcialidad (juicio paralelo)</li>
+            <li>Completud (falta de análisis estructural)</li>
+            <li>Art. 20.4: intimidad de los acusados sin sentencia</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>La cobertura fue exhaustiva en hechos pero deficitaria en análisis. El término "rugbiers asesinos" se naturalizó antes del fallo, contribuyendo al juicio paralelo. Faltó la perspectiva estructural del fenómeno: clasismo, racismo contra inmigrantes, cultura del rugby señalada por LatAm Journalism Review.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a3">
+      <div class="accion-header">
+        <div class="accion-num">03</div>
+        <div class="accion-badge intermedio">Intermedio</div>
+        <div class="accion-title">Cobertura presencial diaria en Dolores y Zárate: notas sobre rutinas de los acusados, visitas familiares, recorrida por los barrios el día del veredicto.</div>
+        <div class="accion-actor">Cronistas Policiales<br>Equipo en Dolores</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Veracidad (información de primera mano)</li>
+            <li>Honestidad</li>
+            <li>Investigación in situ</li>
+            <li>Transparencia del proceso judicial</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Respeto al interlocutor (Cortina)</li>
+            <li>Intimidad de familiares no imputados</li>
+            <li>No manipulación</li>
+            <li>Justicia (linchamiento mediático del entorno)</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>El reporteo de campo es periodísticamente valioso, pero entra en territorios privados. Las rutinas dentro de la cárcel y las visitas familiares tensionan la intimidad de personas no imputadas. La recorrida por Zárate entrevistando vecinos el día del veredicto no aporta veracidad jurídica: aporta emocionalidad para el clic.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a4">
+      <div class="accion-header">
+        <div class="accion-num">04</div>
+        <div class="accion-badge intermedio">Intermedio</div>
+        <div class="accion-title">Republicación y embed del video del domo de seguridad municipal de Villa Gesell que muestra la secuencia completa del ataque, durante el juicio.</div>
+        <div class="accion-actor">Decisión<br>Editorial</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Veracidad (prueba judicial, no especulación)</li>
+            <li>Completud factual</li>
+            <li>Transparencia (información del Poder Judicial)</li>
+            <li>Derecho del público a la evidencia</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Dignidad de la víctima fallecida</li>
+            <li>Protección frente al morbo</li>
+            <li>Actitud de servicio (Cortina)</li>
+            <li>Proporcionalidad editorial</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>El material era legítimamente periodístico al provenir de un organismo oficial. Pero un periodismo prudente lo hubiera descrito y citado, no reproducido visualmente en bucle. La difusión masiva contribuye al espectáculo más que a la comprensión del fenómeno.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a5">
+      <div class="accion-header">
+        <div class="accion-num">05</div>
+        <div class="accion-badge extremo">Extremo</div>
+        <div class="accion-title">Replicación y mantenimiento en agenda del video grabado por los propios acusados con sus celulares, viralizado en redes antes de procesarse como prueba.</div>
+        <div class="accion-actor">Decisión<br>Editorial</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Veracidad (material auténtico)</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Dignidad de la víctima en el momento de su muerte</li>
+            <li>Completud (sin contextualización proporcional)</li>
+            <li>Justicia (material aún no procesado judicialmente)</li>
+            <li>No manipulación</li>
+            <li>Actitud de servicio</li>
+            <li>Protección frente a la espectacularización del sufrimiento</li>
+            <li>Art. 20.4: propia imagen al límite</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>Aunque puede invocarse veracidad, esta acción incumple casi todos los principios en juego. Mostrar a una persona siendo asesinada como contenido replicable es la espectacularización del sufrimiento que Cortina identifica como límite ético. La propia imagen de Fernando en el peor momento de su vida pasó a ser contenido digital permanente.</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a6">
+      <div class="accion-header">
+        <div class="accion-num">06</div>
+        <div class="accion-badge extremo">Extremo</div>
+        <div class="accion-title">Publicación reiterada (2023-2025) de notas sobre la vida personal de Julieta Rossi: Instagram, danza, mudanza a Los Ángeles, nuevo noviazgo —pese a su pedido explícito de no exponerse.</div>
+        <div class="accion-actor">Equipo Editorial<br>Sociedad / Policiales</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Libertad de expresión (límite máximo)</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Privacidad (Art. 20.4)</li>
+            <li>Intimidad y propia imagen</li>
+            <li>Dignidad de persona vulnerable (en tratamiento psicológico documentado)</li>
+            <li>Respeto al interlocutor (Cortina)</li>
+            <li>Actitud de servicio</li>
+            <li>No manipulación</li>
+            <li>Consentimiento informado</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>La acción más éticamente reprochable de toda la tabla. Rossi no es figura pública por elección sino por la tragedia que sufrió. Expresó formalmente —a través de su padre Oscar Rossi en audiencia del 3 de enero de 2023— que no estaba preparada para enfrentar el juicio. El único principio invocable —libertad de expresión— es el caso paradigmático que la Constitución limita: "Estas libertades tienen su límite en el respeto al honor, a la intimidad, a la propia imagen".</p>
+        </div>
+      </div></div>
+    </div>
+
+    <div class="accion" data-id="a7">
+      <div class="accion-header">
+        <div class="accion-num">07</div>
+        <div class="accion-badge extremo">Extremo</div>
+        <div class="accion-title">Reactivación de la cobertura en noviembre 2025 a raíz del documental Netflix "50 segundos", reexponiendo familias, acusados con apelaciones abiertas y nuevamente a Julieta Rossi.</div>
+        <div class="accion-actor">Línea Editorial<br>Post-sentencia</div>
+        <div class="accion-toggle">+</div>
+      </div>
+      <div class="accion-body"><div class="accion-body-inner">
+        <div class="principios-block pro">
+          <h5>↗ Principios cumplidos</h5>
+          <ul>
+            <li>Derecho a ser informado sobre apelaciones en curso</li>
+            <li>Continuidad informativa</li>
+          </ul>
+        </div>
+        <div class="principios-block contra">
+          <h5>↘ Principios incumplidos</h5>
+          <ul>
+            <li>Privacidad y derecho al olvido digital</li>
+            <li>Completud (¿análisis o seguimiento del clic?)</li>
+            <li>Actitud de servicio</li>
+            <li>Lógica de explotación temática</li>
+          </ul>
+        </div>
+        <div class="fundamentacion">
+          <h5>Fundamentación</h5>
+          <p>El caso Báez Sosa se convierte en "tema rentable" reactivable con cada novedad cultural: Netflix, declaración desde la cárcel, nuevo noviazgo. La cobertura cinco años después prioriza el ángulo nuevo sobre el análisis acumulado del fenómeno. Vuelve a incumplir la privacidad de Rossi ya identificada en la Acción 06.</p>
+        </div>
+      </div></div>
+    </div>
+
+  </div>
+
+  <div class="observacion-clave">
+    <div class="ok-label">◆ Observación clave del Punto 4</div>
+    <p>
+      <strong>Ningún curso de acción es ÓPTIMO.</strong> Infobae, aún en sus mejores decisiones, no cumplió con todos los principios en juego. Las acciones óptimas hubieran existido en abstracto —cobertura del juicio con análisis estructural + descripción del video sin republicación + no notas sobre Rossi— pero el medio no las eligió. Esto refuerza la pregunta moral del trabajo.
+    </p>
+  </div>
+</section>
+
+<!-- ========== KANT VS MILL ========== -->
+<section id="etica">
+  <div class="section-label">Punto 5 · Corrientes éticas aplicadas</div>
+  <h2 style="font-family: var(--serif); font-size: clamp(32px, 4vw, 52px); font-weight: 300; line-height: 1; margin-bottom: 12px; letter-spacing: -0.02em;">
+    Dos filósofos, <em style="color: var(--accent); font-weight: 600;">un mismo expediente</em>.
+  </h2>
+  <p style="font-family: var(--serif); font-size: 18px; color: var(--ink-dim); max-width: 720px;">
+    Ética del deber vs. ética de las consecuencias. ¿Coinciden, divergen?
+  </p>
+
+  <div class="vs-header">
+    <div class="vs-side kant">
+      <div class="philosopher">Kant</div>
+      <div class="approach">deontología · deber</div>
+    </div>
+    <div class="vs-divider">vs.</div>
+    <div class="vs-side mill">
+      <div class="philosopher">Mill</div>
+      <div class="approach">utilitarismo · consecuencias</div>
+    </div>
+  </div>
+
+  <div class="vs-toggle">
+    <button class="active" data-view="both">Ver ambos</button>
+    <button data-view="kant">Solo Kant</button>
+    <button data-view="mill">Solo Mill</button>
+    <button data-view="comp">Comparar veredictos</button>
+  </div>
+
+  <div class="vs-content" id="vsContent">
+
+    <div class="vs-card kant active" data-card="kant">
+      <div class="vs-author">◆ Immanuel Kant · Deontología</div>
+      <div class="vs-question">¿Cuál es el deber del periodista, y actuó Infobae por deber o por inclinación?</div>
+
+      <h4>Clasificación de la acción</h4>
+      <p>La cobertura de Infobae no se realizó <em>por deber</em> sino <em>por inclinación mediata</em>: tráfico web, engagement, posicionamiento. Aunque el resultado coincide con lo que el deber periodístico exigiría, la motivación fue la utilidad del medio.</p>
+      <p>Kant es categórico: cuando el lechero no adultera la leche por miedo a perder clientes, su acción carece de valor moral positivo. Lo mismo aquí: cubrir el caso porque genera tráfico tiene valor moral neutro, no positivo.</p>
+
+      <h4>Imperativo categórico · 1ª formulación</h4>
+      <div class="quote">"Obra solo según la máxima por la cual puedas querer al mismo tiempo que se convierta en ley universal."</div>
+      <p>Máxima implícita de Infobae en la Acción 06: <em>"Publicaré información detallada sobre cualquier persona asociada a una noticia, aun cuando haya pedido no exponerse."</em> Universalizada, esta máxima genera contradicción: nadie podría retirarse del espacio público una vez involucrado involuntariamente. No se puede convertir en ley universal sin contradicción.</p>
+
+      <h4>Imperativo categórico · 2ª formulación</h4>
+      <div class="quote">"Obra de modo tal que consideres a la humanidad siempre como un fin y nunca solamente como un medio."</div>
+      <p>Las acciones más graves instrumentalizaron a personas reales: Fernando, ya fallecido, fue usado como medio para generar tráfico mediante imágenes de su muerte. Julieta Rossi fue usada como medio para sostener el caso en agenda contra su voluntad. Las familias de los acusados, instrumentalizadas para profundizar la cobertura emocional.</p>
+
+      <h4>Autonomía vs. heteronomía</h4>
+      <p>Infobae no actuó con voluntad autónoma (darse la ley moral desde la propia razón) sino con voluntad <em>heterónoma</em>: métricas de audiencia, modelo de negocio publicitario, competencia. Lo opuesto a la verdadera libertad ética.</p>
+
+      <div class="verdict">
+        <strong>Veredicto kantiano</strong>
+        Éticamente reprochable: (a) no por deber sino por inclinación mediata, (b) máximas no universalizables, (c) personas usadas como medios, (d) voluntad heterónoma sometida a la lógica del mercado digital.
+      </div>
+    </div>
+
+    <div class="vs-card mill active" data-card="mill">
+      <div class="vs-author">◆ John Stuart Mill · Utilitarismo</div>
+      <div class="vs-question">¿La cobertura produjo el mayor superávit de felicidad sobre infelicidad para el mayor número?</div>
+
+      <h4>Balance felicidad / infelicidad</h4>
+      <p><strong style="color: var(--green); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;">FELICIDAD →</strong> Justicia para Fernando (5 perpetuas + 3 condenas, probablemente inalcanzables sin presión mediática). Conciencia social sobre violencia juvenil, racismo y "ataques en manada". Función democrática de control judicial.</p>
+      <p><strong style="color: var(--crimson); font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;">INFELICIDAD →</strong> Sufrimiento agravado de Julieta Rossi (tratamiento psicológico, mudanza al exterior, exposición pública). Dolor revivido en la familia Báez Sosa. Erosión de la presunción de inocencia. Espectacularización del sufrimiento como modelo de consumo.</p>
+
+      <h4>Distinción cualitativa de los placeres</h4>
+      <p>Mill distingue placeres <em>superiores</em> (intelectuales: comprensión, justicia, reflexión cívica) de placeres <em>inferiores</em> (sensuales: morbo, espectáculo, viralización). Infobae mezcló ambos: legítimo en lo primero, problemático en lo segundo.</p>
+      <div class="quote">"Es mejor ser un Sócrates insatisfecho que un necio satisfecho."</div>
+      <p>Era preferible un periodismo que generara menos clics pero más comprensión (Sócrates insatisfecho) que uno que maximizara el engagement con sensacionalismo (necio satisfecho).</p>
+
+      <h4>Utilitarismo de la regla</h4>
+      <p>La regla que Infobae debió considerar: <em>"Cubrir crímenes de interés público maximizando justicia social y educación cívica, minimizando el daño a personas vulnerables que no eligieron la exposición."</em></p>
+      <p>· Acción 02 (cobertura del juicio): SÍ parcialmente — saldo positivo.<br>· Acción 05 (video viralizado): NO — placer inferior, daño grave a la dignidad.<br>· Acción 06 (Rossi): NO — daño individual supera el bien informativo marginal.</p>
+
+      <h4>Sacrificio individual</h4>
+      <p>Mill admite el sacrificio solo cuando es <em>voluntario y noble</em> (mártires, héroes). El sacrificio de Rossi fue involuntario e impuesto, violando el principio milleano de que ningún sujeto debe ser instrumentalizado contra su voluntad.</p>
+
+      <div class="verdict">
+        <strong>Veredicto utilitarista</strong>
+        Balance mixto. Mill NO condena la cobertura del juicio en sí (saldo positivo). SÍ condena las Acciones 05 y 06: placeres inferiores sobre superiores, regla no universalizable, daño individual concreto que supera el bien colectivo marginal.
+      </div>
+    </div>
+
+    <div class="vs-card both" data-card="comp" style="grid-column: 1 / -1;">
+      <div class="vs-author" style="color: var(--ink);">◆ Kant + Mill · Convergencias y divergencias</div>
+      <div class="vs-question">¿Coinciden las dos éticas más influyentes de la modernidad en su juicio sobre Infobae?</div>
+
+      <h4 style="color: var(--green);">Donde coinciden</h4>
+      <p>Ambos filósofos <strong>condenan las Acciones 05 y 06</strong> (videos viralizados del ataque y cobertura de Julieta Rossi), aunque por razones distintas:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0;">
+        <div style="padding: 20px; background: var(--bg); border-left: 2px solid var(--accent);">
+          <p style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 8px;">KANT</p>
+          <p style="font-size: 14px;">Porque trató a personas como medios, no como fines. Las máximas editoriales no se pueden universalizar sin contradicción.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-left: 2px solid var(--blue);">
+          <p style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; color: var(--blue); margin-bottom: 8px;">MILL</p>
+          <p style="font-size: 14px;">Porque el cálculo de felicidad-infelicidad da saldo negativo y privilegió placeres inferiores sobre superiores.</p>
+        </div>
+      </div>
+
+      <h4 style="color: var(--amber);">Donde difieren</h4>
+      <p>Sobre la <strong>cobertura del juicio en general</strong> (Acción 02), las posturas divergen:</p>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin: 20px 0;">
+        <div style="padding: 20px; background: var(--bg); border-left: 2px solid var(--accent);">
+          <p style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; color: var(--accent); margin-bottom: 8px;">KANT · MÁS ESTRICTO</p>
+          <p style="font-size: 14px;">Condena la motivación inclinada al interés del medio, aunque el resultado sea bueno. La moralidad está en el motivo, no en la consecuencia.</p>
+        </div>
+        <div style="padding: 20px; background: var(--bg); border-left: 2px solid var(--blue);">
+          <p style="font-family: var(--mono); font-size: 10px; letter-spacing: 0.15em; color: var(--blue); margin-bottom: 8px;">MILL · MÁS PERMISIVO</p>
+          <p style="font-size: 14px;">Acepta el resultado positivo si maximiza el bien colectivo, aún si la motivación es interesada. Lo que importa es el saldo agregado de felicidad.</p>
+        </div>
+      </div>
+
+      <div class="verdict">
+        <strong>Síntesis para la presentación</strong>
+        Dos éticas potentes que convergen en lo más grave —y divergen en los matices. Esta tensión es la riqueza del dilema: muestra que aún acordando que algo está mal, los caminos para llegar a esa conclusión revelan visiones distintas sobre qué hace que una acción periodística sea éticamente válida.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ========== CIERRE ========== -->
+<section class="cierre">
+  <div class="section-label" style="justify-content: center;">Y entonces</div>
+  <p class="big-q">
+    Si <em>cubrir</em> es necesario<br>
+    pero <em>la forma en que se cubre</em> hiere,<br>
+    ¿qué le queda al periodismo digital<br>
+    cuando el clic es su <em>oxígeno</em>?
+  </p>
+  <div class="signature">Expediente 01 · Ética y Comunicación · 2026</div>
+</section>
+
+<script>
+  // Timeline
+  document.querySelectorAll('.tl-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const id = item.dataset.id;
+      const detail = document.getElementById('d-' + id);
+      const wasActive = detail.classList.contains('active');
+      document.querySelectorAll('.tl-detail').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.tl-item').forEach(i => i.style.opacity = '0.5');
+      if (!wasActive) {
+        detail.classList.add('active');
+        item.style.opacity = '1';
+      } else {
+        document.querySelectorAll('.tl-item').forEach(i => i.style.opacity = '1');
+      }
+    });
+  });
+
+  // Tres lecturas - flip
+  document.querySelectorAll('.lectura').forEach(card => {
+    card.addEventListener('click', () => {
+      card.classList.toggle('flipped');
+    });
+  });
+
+  // Acciones - accordion
+  document.querySelectorAll('.accion').forEach(acc => {
+    acc.querySelector('.accion-header').addEventListener('click', () => {
+      acc.classList.toggle('open');
+    });
+  });
+
+  // Kant vs Mill toggle
+  const toggleBtns = document.querySelectorAll('.vs-toggle button');
+  const vsContent = document.getElementById('vsContent');
+  const kantCard = document.querySelector('.vs-card[data-card="kant"]');
+  const millCard = document.querySelector('.vs-card[data-card="mill"]');
+  const compCard = document.querySelector('.vs-card[data-card="comp"]');
+
+  toggleBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      toggleBtns.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const view = btn.dataset.view;
+
+      kantCard.classList.remove('active');
+      millCard.classList.remove('active');
+      compCard.classList.remove('active');
+      vsContent.classList.remove('single');
+
+      if (view === 'both') {
+        kantCard.classList.add('active');
+        millCard.classList.add('active');
+      } else if (view === 'kant') {
+        kantCard.classList.add('active');
+        vsContent.classList.add('single');
+      } else if (view === 'mill') {
+        millCard.classList.add('active');
+        vsContent.classList.add('single');
+      } else if (view === 'comp') {
+        compCard.classList.add('active');
+        vsContent.classList.add('single');
+      }
+    });
+  });
+
+  // Reset timeline opacity when clicking elsewhere
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.tl-item') && !e.target.closest('.tl-detail')) {
+      document.querySelectorAll('.tl-item').forEach(i => i.style.opacity = '1');
+    }
+  });
+</script>
+
+</body>
+</html>
